@@ -1,0 +1,17 @@
+{
+  "name": "your-podcast-moment",
+  "version": "1.0.0",
+  "description": "Podcast player",
+  "main": "script.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Adelina Moroaca",
+  "license": "ISC",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
+  }
+}
