@@ -79,42 +79,55 @@
       <!-- Main Container -->
       <section class="main-container">
         <!-- Loader -->
-        <div class="loader-container">
+        <div id="loader" class="loader-container">
           <i class="fas fa-microphone-alt"></i>
         </div>
       </section>
 
-      <div id="response" class="cards-container">
-        <div class="card">
-          <img src="./default-podcast.png" alt="Podcast Image" />
-          <div class="card-content">
-            <h3>Podcast title</h3>
-            <p>Lorem ipsum dolor sit amet.</p>
-            <p class="episode-count">Episode 50</p>
-            <p class="pub-date">Newest Episode</p>
-          </div>
-        </div>
-        <br />
-        <br />
-        <div class="card">
-          <img src="./default-podcast.png" alt="Podcast Image" />
-          <div class="card-content">
-            <h3>Podcast title</h3>
-            <p>Lorem ipsum dolor sit amet.</p>
-            <p>Episode 50</p>
-            <p>Newest Episode</p>
-          </div>
-        </div>
-      </div>
+      <!-- Cards Container -->
+      <div id="response" class="cards-container"></div>
 
       <!-- Player Container -->
       <aside class="player-container">
         <div class="player">
-          <p>Song plaing Card</p>
+          <!-- image -->
+          <div class="image-container">
+            <img id="image" src="./favicon.png" alt="Podcast Image" />
+          </div>
+          <!-- title container -->
+          <div class="title-container">
+            <h2 id="title">Podcast Title</h2>
+            <h3 id="datePublished">Date Published</h3>
+          </div>
+
+          <!-- audio -->
+          <audio id="player" scr=""></audio>
+          <div class="controls-container">
+            <!-- Progress -->
+            <div id="progress" class="progress-container"></div>
+            <div class="duration-wrapper">
+              <span id="current-time">0:00</span>
+              <span id="duration">0:00</span>
+            </div>
+
+            <!-- Controls -->
+            <div class="player-controls">
+              <i class="fas fa-backward" id="prev" title="-15 Seconds"></i>
+              <i class="fas fa-play main-button" id="play" title="Play"></i>
+              <i class="fas fa-forward" id="next" title="+15 Seconds"></i>
+            </div>
+          </div>
         </div>
 
         <div class="queue">
-          <p>Song player List</p>
+          <img src="./favicon.png" alt="" />
+          <div class="queue-content">
+            <h3>Episode Title</h3>
+            <div class="icon-container">
+              <i class="fas fa-play-circle"></i>
+              <i class="fas fa-trash-alt"></i>
+            </div>
+          </div>
         </div>
       </aside>
     </main>

@@ -362,3 +362,52 @@ footer {
         display: none;
     }
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Icons */
+.icon-container {
+    display: flex;
+}
+
+.icon-container i {
+    font-size: 1.5rem;
+    color: rgb(95, 95, 95);
+    cursor: pointer;
+}
+
+.icon-container i:hover {
+    filter: brightness(60%);
+}
+
+.queue-content .icon-container {
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.queue-content .icon-container i {
+    font-size: 1.5rem;
+    color: rgb(95, 95, 95);
+    cursor: pointer;
+}
+
+.icon-container i:hover {
+    filter: brightness(60%);
+}
+
+.mr-10{
+    margin-right: 10px;
+}
+
+.pub-date-alt {
+    margin: 8px 0 7px 15px;
+}
+
+/* Cards */
+/* .card img {
+    width: 250px;
+    min-width: 250px;
+    height: auto;
+} */
