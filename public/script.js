@@ -1,5 +1,3 @@
-const { format } = require("crypto-js");
-
 document.addEventListener("DOMContentLoaded", () => {
     const searchHistory = document.getElementById("searchHistory");
     const searchInput = document.getElementById("searchInput");
@@ -7,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = document.getElementById("resetButton");
     const loader = document.getElementById("loader");
     const responseContainer = document.getElementById("response");
+    const queueContainer = document.querySelector(".queue-container");
+
 
     // Reset search history
     function resetHistory() {
@@ -316,7 +316,8 @@ document.addEventListener("DOMContentLoaded", () => {
         queueBtnIcon.className = "fas fa-list";
         queueBtnIcon.title = "Add to Queue";
         queueBtnIcon.addEventListener("click", () => {
-            console.log("Episode queued", episode);
+            console.log("Try to Add Episode to queue", episode);
+            addToQueue(episode);
         });
     
         const description = document.createElement("p");
@@ -340,13 +341,90 @@ document.addEventListener("DOMContentLoaded", () => {
         return card;
     }
 
+    // Set Queue Array
+    let queueItems = [];
+
+
+    // Add item to queue
+    function addToQueue(episode) {
+        const card = document.createElement("div");
+        card.className = "queue-item";
+
+        const img = document.createElement("img");
+        img.src = episode.image || episode.feedImage || "./favicon.png";
+        img.alt = episode.title;
+
+        const content = document.createElement("div");
+        content.className = "queue-content";
+
+        const title = document.createElement("h3");
+        title.innerText = episode.title;
+
+        const iconContainer = document.createElement("div");
+        iconContainer.className = "icon-container";
+
+        const playBtnIcon = document.createElement("i");
+        playBtnIcon.className = "fas fa-play-circle";
+        playBtnIcon.title = "Play Podcast";
+        playBtnIcon.addEventListener("click", () => {
+            console.log("D2:Episode played", episode);
+            loadPodcast(episode);
+        });
+
+        const removeBtnIcon = document.createElement("i");
+        removeBtnIcon.className = "fas fa-trash-alt";
+        removeBtnIcon.title = "Remove from Queue";
+        removeBtnIcon.addEventListener("click", () => {
+            console.log("Episode removed", episode);
+            removeFromQueue(episode);
+        });
+
+        iconContainer.appendChild(playBtnIcon);
+        iconContainer.appendChild(removeBtnIcon);
+
+        content.appendChild(title);
+        content.appendChild(iconContainer);
+
+        card.appendChild(img);
+        card.appendChild(content);
+        
+        queueContainer.appendChild(card);
+        saveQueueItems(episode);
+    }
+
+    // Remove item from queue
+    function removeFromQueue(episode) {
+        queueItems = queueItems.filter(item => item.title !== episode.title);
+        localStorage.setItem("queue", JSON.stringify(queueItems));
+
+        const queueElements = document.querySelectorAll(".queue-item");
+        queueElements.forEach(item => {
+            const title = item.querySelector("h3").innerText;
+            if (title === episode.title) item.remove();
+        });
+    }
+
+    // Save items to queue
+    function saveQueueItems(episode) {
+        queueItems.push(episode);
+        localStorage.setItem("queue", JSON.stringify(queueItems));
+    }
+
+    // Load saved queue UI
+    function loadQueueItems() {
+        const savedQueue = JSON.parse(localStorage.getItem("queue"));
+        if (savedQueue) {
+            savedQueue.forEach(episode => addToQueue(episode));
+        }
+    }
+
+
     //navigation
     const searchLink = document.getElementById("searchLink");
     const listenLink = document.getElementById("listenLink");
     const searchContainer = document.querySelector(".search-container");
     const mainContainer = document.querySelector(".main-container");
     const playerContainer = document.querySelector(".player-container");
-    const queueContainer = document.querySelector(".queue-container");
     
     searchLink.addEventListener("click", navigateToSearch());
     listenLink.addEventListener("click", navigateToPlayer());
@@ -405,14 +483,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Update Podcast container
     function loadPodcast(episode) {
+        currentTimeEl.style.display = "none";
+        durationEl.style.display = "none";
         title.textContent = episode.title;
         datePublished.textContent = `Published: ${episode.datePublished ? formatDate(episode.datePublished) : "N/A"}`;
         player.src = episode.enclosureUrl;
         image.src = episode.image || episode.feedImage || "./favicon.png";
+
+        // Reset player
+        player.currentTime = 0;
+        progress.classList.add("loading");
+        currentTimeEl.textContent = "00:00";
+
         player.addEventListener("loadedmetadata", () => {
             const duration = player.duration;
+            currentTimeEl.style.display = "block";
+            durationEl.style.display = "block";
             console.log('D1: Metadata loaded, duration:', duration);
             formatTime(duration, durationEl);
+            progress.classList.remove("loading");
             playPodcast();
         })
     }
@@ -461,9 +550,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Skip forward/backward 15 seconds
+    function skipTime(amount) {
+        player.currentTime = Math.max(0, Math.min(player.duration, player.currentTime + amount));
+    }
+
     // Update Progress Bar & Time
     function updateProgressBar(e) {
-        if (isPlaying) {
+        // if (isPlaying) {
             const { duration, currentTime } = e.srcElement;
             // Update progress bar width
             const progressPercent = (currentTime / duration) * 100;
@@ -487,7 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
             //     currentSeconds = `0${currentSeconds}`;
             // }
             // currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`;
-        }
+        // }
     }
 
     // Set Progress Bar
@@ -499,8 +593,59 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Event Listeners
-    // prevBtn.addEventListener("click", prevSong);
-    // nextBtn.addEventListener("click", nextSong);
     player.addEventListener("timeupdate", updateProgressBar);
     progressContainer.addEventListener("click", setProgressBar);
+    prevBtn.addEventListener("click", () => skipTime(-15));
+    nextBtn.addEventListener("click", () => skipTime(15));
+
+    // Check if screen width is less than 767px
+    function isMobileDevice() {
+        return window.innerWidth < 767;
+    }
+
+    // Save the player state to local storage every 5 seconds
+    setInterval(() => {
+        if(isPlaying){
+            const playerState = {
+                title: title.textContent,
+                datePublished: datePublished.textContent,
+                currentTime: player.currentTime,
+                duration: player.duration,
+                image: image.src,
+                src: player.src
+            }
+            localStorage.setItem("playerState", JSON.stringify(playerState));
+        }
+    }, 5000);
+
+    // Load the player state from local storage
+    function loadPlayerState() {
+        const savedState = JSON.parse(localStorage.getItem("playerState"));
+        if (savedState) {
+            title.textContent = savedState.title;
+            datePublished.textContent = savedState.datePublished;
+            player.src = savedState.src;
+            image.src = savedState.image;
+            player.currentTime = savedState.currentTime;
+            formatTime(savedState.currentTime, currentTimeEl);
+            player.duration = savedState.duration;
+            formatTime(savedState.duration, durationEl);
+            progress.style.width = `${(savedState.currentTime / savedState.duration) * 100}%`;      
+           
+            if (isMobileDevice()) navigateToPlayer();
+        }
+    }
+
+    // On Startup
+    loadPlayerState();
+    loadQueueItems();
 });
+
+
+// Helper functions : player JS part 3
+    // Check if screen width is less than 767px
+    // function isMobileDevice() {
+    //     return window.innerWidth < 767;
+    // }
+
+//~ Mobile UI container */

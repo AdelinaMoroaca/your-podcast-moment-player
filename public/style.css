@@ -183,7 +183,7 @@ button:hover {
     margin: 145px 0.5rem 0 0.5rem;
     height: calc(100vh - 180px);
     /* margin: 0 1rem; */
-    /* margin-top: 180px; */
+    /* margin-top: 180px;  ~ Mobile UI container */
     background: var(--main-container-background);
     display: flex;
     flex-grow: 1;
@@ -206,7 +206,7 @@ button:hover {
 
 .main-container,
 .player,
-.queue {
+.queue-container {
     border-radius: 2rem;
     background: rgb(201, 255, 192);
     box-shadow: var(--box-shadow);
@@ -248,7 +248,7 @@ button:hover {
 }
 
 .player,
-.queue {
+.queue-container {
     height: 48%;
 }
 
@@ -350,7 +350,7 @@ footer {
         min-height: 480px;
     }
 
-    .queue{
+    .queue-container{
         height: 38%;
         min-height: 180px;
     }
@@ -411,3 +411,34 @@ footer {
     min-width: 250px;
     height: auto;
 } */
+
+/* Progress */
+.progress-container {
+    background: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 40px 20px;
+    height: 4px;
+    width: 90%;
+}
+
+.progress {
+    background: #242323;
+    border-radius: 5px;
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+@keyframes loadingAnimation {
+    0%, 100% {
+        width: 0%;
+    }
+    50% {
+        width: 100%;
+    }
+}
+
+.loading {
+    animation: loadingAnimation 1.5s infinite ease-in-out;
+}
