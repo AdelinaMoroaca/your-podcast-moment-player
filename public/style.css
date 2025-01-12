@@ -214,6 +214,10 @@ button:hover {
     overflow: auto;
 }
 
+/* .queue-item:last-child {
+    margin-bottom: 0;
+} */
+
 /* Loader */
 .loader-container {
     width: 100%;
