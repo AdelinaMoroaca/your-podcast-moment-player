@@ -46,13 +46,6 @@
 
       <!-- Search Container -->
       <div class="search-container">
-        <!-- Search history -->
-        <div class="custom-select">
-          <select name="searchHistry" id="searchHistory" title="Search History">
-            <option value="Search History">Select Previous Search</option>
-          </select>
-        </div>
-
         <!-- Search-bar input -->
         <input
           type="text"
@@ -61,9 +54,39 @@
         />
 
         <!-- Search Buttons -->
-        <div class="search-buttons">
+        <!-- <div class="search-buttons"> -->
+        <!-- Search history -->
+        <!-- <div class="custom-select">
+            <select
+              name="searchHistory"
+              id="searchHistory"
+              title="Search History"
+            >
+              <option value="Search History">Select Previous Search</option>
+            </select>
+          </div>
+
+          <button id="resetButton" type="button">C History</button>
           <button id="searchButton" type="button">Search</button>
-          <button id="resetButton" type="button">Clear History</button>
+        </div> -->
+        <!-- </div> -->
+
+        <div class="search-buttons">
+          <!-- Search history -->
+          <div class="custom-select">
+            <select
+              name="searchHistory"
+              id="searchHistory"
+              title="Search History"
+            >
+              <option value="Search History">Select Previous Search</option>
+            </select>
+          </div>
+
+          <div class="buttons-container" style="border: 1px solid pink">
+            <button id="resetButton" type="button">C History</button>
+            <button id="searchButton" type="button">Search</button>
+          </div>
         </div>
       </div>
     </header>
@@ -85,6 +108,61 @@
         <div id="loader" class="loader-container">
           <i class="fas fa-microphone-alt"></i>
         </div>
+
+        <!-- Cards -->
+        <div class="cards-container">
+          <div class="card">
+            <img src="./default-podcast.png" alt="Podcast Image" />
+            <div class="card-content">
+              <h3>Podcast Title</h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Sapiente, ab?
+              </p>
+              <p class="episode-count">Episodes 50</p>
+              <p class="pub-date">Newest Episode: 2024-09-01</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="./default-podcast.png" alt="Podcast Image" />
+            <div class="card-content">
+              <h3>Podcast Title</h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Sapiente, ab?
+              </p>
+              <p class="episode-count">Episodes 50</p>
+              <p class="pub-date">Newest Episode: 2024-09-01</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="./default-podcast.png" alt="Podcast Image" />
+            <div class="card-content">
+              <h3>Podcast Title</h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Sapiente, ab?
+              </p>
+              <p class="episode-count">Episodes 50</p>
+              <p class="pub-date">Newest Episode: 2024-09-01</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="./default-podcast.png" alt="Podcast Image" />
+            <div class="card-content">
+              <h3>Podcast Title</h3>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Sapiente, ab?
+              </p>
+              <p class="episode-count">Episodes 50</p>
+              <p class="pub-date">Newest Episode: 2024-09-01</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Cards Container -->
@@ -93,33 +171,65 @@
       <!-- Player Container -->
       <aside class="player-container">
         <div class="player">
-          <!-- image -->
-          <div class="image-container">
-            <img id="image" src="./favicon.png" alt="Podcast Image" />
-          </div>
-          <!-- title container -->
-          <div class="title-container">
-            <h2 id="title">Podcast Title</h2>
-            <h3 id="datePublished">Date Published</h3>
+          <!-- Image -->
+          <div class="img-container">
+            <img id="image" src="./default-podcast.png" alt="Podcast Image" />
           </div>
 
-          <!-- audio -->
-          <audio id="player" scr=""></audio>
+          <!-- Title Container-->
+          <div class="title-container">
+            <h2 id="title">podcast title</h2>
+            <h3 id="datePublished">Adelina</h3>
+          </div>
+
+          <!-- Audio -->
+          <audio id="player" src=""></audio>
+
           <div class="controls-container">
             <!-- Progress -->
-            <div id="progress" class="progress-container"></div>
-            <div class="duration-wrapper">
-              <span id="current-time">0:00</span>
-              <span id="duration">0:00</span>
+            <div class="progress-container" id="progress-container">
+              <div class="progress" id="progress"></div>
+              <div class="duration-wrapper">
+                <span id="current-time">0:00</span>
+                <span id="duration">2:00</span>
+              </div>
             </div>
 
             <!-- Controls -->
             <div class="player-controls">
               <i class="fas fa-backward" id="prev" title="-15 Seconds"></i>
               <i class="fas fa-play main-button" id="play" title="Play"></i>
-              <i class="fas fa-forward" id="next" title="+15 Seconds"></i>
+              <i class="fas fa-forward" id="next" title="15 Seconds"></i>
             </div>
           </div>
+
+          <!-- image -->
+          <!-- <div class="image-container">
+            <img id="image" src="./favicon.png" alt="Podcast Image" />
+          </div> -->
+          <!-- title container -->
+          <!-- <div class="title-container">
+            <h2 id="title">Podcast Title</h2>
+            <h3 id="datePublished">Date Published</h3>
+          </div> -->
+
+          <!-- audio -->
+          <!-- <audio id="player" scr=""></audio>
+          <div class="controls-container"> -->
+          <!-- Progress -->
+          <!-- <div id="progress" class="progress-container"></div>
+            <div class="duration-wrapper">
+              <span id="current-time">0:00</span>
+              <span id="duration">0:00</span>
+            </div> -->
+
+          <!-- Controls -->
+          <!-- <div class="player-controls">
+              <i class="fas fa-backward" id="prev" title="-15 Seconds"></i>
+              <i class="fas fa-play main-button" id="play" title="Play"></i>
+              <i class="fas fa-forward" id="next" title="+15 Seconds"></i>
+            </div> -->
+          <!-- </div> -->
         </div>
 
         <div class="queue-container">
